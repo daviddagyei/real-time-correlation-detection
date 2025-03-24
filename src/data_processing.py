@@ -20,7 +20,7 @@ def add_new_data(df, timestamp, symbol_data):
     """
     new_row = {"timestamp": timestamp}
     new_row.update(symbol_data)
-    return df.append(new_row, ignore_index=True)
+    return df._append(new_row, ignore_index=True)
 
 def calculate_returns(df, symbol):
     """
@@ -99,7 +99,7 @@ def main():
                 
                 print(f"New data at {current_time}: {symbol_data}")
                 
-                if len(data) >= 10:
+                if len(data) >= 100:
                     rolling_corr = compute_rolling_correlation(data, symbol1, symbol2, window=10)
                     anomaly_flag = detect_anomalies(rolling_corr, threshold=2.0)
                     
@@ -108,13 +108,14 @@ def main():
                         print("Anomaly detected!")
                     else:
                         print("No anomaly detected.")
+                    break
                 else:
                     print(f"Collecting data... ({len(data)} points collected)")
             
             except Exception as e:
                 print("Error during data fetching or processing:", e)
             
-            time.sleep(15)
+            time.sleep(1)
 
 if __name__ == "__main__":
     main()
